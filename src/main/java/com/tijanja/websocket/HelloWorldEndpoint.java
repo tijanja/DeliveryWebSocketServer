@@ -7,7 +7,8 @@ import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
-@ServerEndpoint("/hello")
+
+@ServerEndpoint( "/endpoint")
 public class HelloWorldEndpoint {
 
     public HelloWorldEndpoint() {
@@ -26,10 +27,10 @@ public class HelloWorldEndpoint {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.printf("Message received. Session id: %s Message: %s%n",
-                session.getId(), message);
-        try {
-            session.getBasicRemote().sendText(String.format("We received your message: %s%n", message));
+        System.out.printf("Message received. Session id: %s Message: %s%n",session.getId(), message);
+        try 
+        {
+            session.getBasicRemote().sendText(String.format("We received your message: %s%n "+session.getId()+" ", message));
         } catch (IOException ex) {
             ex.printStackTrace();
         }

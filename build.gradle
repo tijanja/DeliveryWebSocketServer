@@ -11,6 +11,7 @@ plugins{
     id 'org.gretty' version '2.3.1'
     id 'java'
     id 'application'
+    
 }
 
 gretty {
@@ -34,5 +35,5 @@ dependencies {
 }
 
 // Define the main class for the application
-mainClassName = 'com.tijanja.websocket.App'
+mainClassName = 'com.tijanja.websocket.HelloWorldEndpoint'
 apply plugin: "org.gretty"
