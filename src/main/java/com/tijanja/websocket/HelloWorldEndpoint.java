@@ -47,7 +47,7 @@ public class HelloWorldEndpoint {
 
     @OnError
     public void onError(Throwable e) {
-        System.out.printf(e.getMessage());
+        e.printStackTrace();
     }
 
     @OnClose
