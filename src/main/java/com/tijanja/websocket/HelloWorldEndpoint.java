@@ -6,20 +6,26 @@ package com.tijanja.websocket;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @ServerEndpoint( "/endpoint")
 public class HelloWorldEndpoint {
 
+    List<Session> clientSession;
+
     public HelloWorldEndpoint() {
         System.out.println("class loaded " + this.getClass());
+        clientSession = new ArrayList<>();
     }
 
     @OnOpen
     public void onOpen(Session session) {
         System.out.printf("Session opened, id: %s%n", session.getId());
+        clientSession.add(session);
         try {
-            session.getBasicRemote().sendText("Hi there, we are successfully connected.");
+            session.getBasicRemote().sendText("{'action':'connected','sessionId':"+session.getId()+"}");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
