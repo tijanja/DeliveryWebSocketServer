@@ -59,7 +59,7 @@ public class HelloWorldEndpoint {
             System.out.print(res.getLoginObject().getEmail());
                 try {
                     Statement statement = conn.createStatement();
-                    statement.executeUpdate("Insert into user Values('',"+loginObject.getEmail()+",'tunji','akinde',"+loginObject.getEmail()+","+loginObject.getPassword()+",'');");
+                    statement.executeUpdate("Insert into user Values('"+loginObject.getEmail()+"','tunji','akinde','"+loginObject.getEmail()+"','"+loginObject.getPassword()+"','0');");
                 } catch (SQLException e) {
                     
                     e.printStackTrace();
