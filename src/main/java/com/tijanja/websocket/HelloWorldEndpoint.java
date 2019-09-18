@@ -3,13 +3,13 @@
  */
 package com.tijanja.websocket;
 
-import javax.json.JsonObject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+
+import com.tijanja.websocket.model.Response;
 
 import java.io.IOException;
 import java.sql.Connection;
@@ -46,13 +46,12 @@ public class HelloWorldEndpoint {
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.printf("Message received. Session id: %s Message: %s%n",session.getId(), message);
-        JsonParser parser = new JsonParser();
-        com.google.gson.JsonObject jsonObj =(com.google.gson.JsonObject) parser.parse(message);
+        Response res = (Response)gson.fromJson(message, Response.class);
         
-        switch(jsonObj.getAsJsonObject("action").toString())
+        switch(res.getAction())
         {
             case "login":{
-                System.out.print(message);
+                System.out.print(res.getLoginObject().getEmail());
                 //conn.prepareStatement("Insert into user Values('',)")
             }
         }
