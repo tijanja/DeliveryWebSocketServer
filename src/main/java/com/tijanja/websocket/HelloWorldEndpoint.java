@@ -3,21 +3,25 @@
  */
 package com.tijanja.websocket;
 
-import javax.websocket.*;
-import javax.websocket.server.ServerEndpoint;
-
-import com.google.gson.Gson;
-import com.google.gson.JsonParser;
-
-import com.tijanja.websocket.model.Response;
-
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.OnClose;
+import javax.websocket.OnError;
+import javax.websocket.OnMessage;
+import javax.websocket.OnOpen;
+import javax.websocket.Session;
+import javax.websocket.server.ServerEndpoint;
 
-@ServerEndpoint( "/endpoint")
+import com.google.gson.Gson;
+import com.tijanja.model.LoginObject;
+import com.tijanja.model.Response;
+
+@ServerEndpoint("/endpoint")
 public class HelloWorldEndpoint {
 
     List<Session> clientSession;
@@ -29,7 +33,7 @@ public class HelloWorldEndpoint {
         clientSession = new ArrayList<>();
         gson = new Gson();
         conn = ConfigDB.connectDB();
-        
+
     }
 
     @OnOpen
@@ -37,7 +41,7 @@ public class HelloWorldEndpoint {
         System.out.printf("Session opened, id: %s%n", session.getId());
         clientSession.add(session);
         try {
-            session.getBasicRemote().sendText("{'action':'connected','sessionId':'"+session.getId()+"'}");
+            session.getBasicRemote().sendText("{'action':'connected','sessionId':'" + session.getId() + "'}");
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -45,14 +49,24 @@ public class HelloWorldEndpoint {
 
     @OnMessage
     public void onMessage(String message, Session session) {
-        System.out.printf("Message received. Session id: %s Message: %s%n",session.getId(), message);
-        Response res = (Response)gson.fromJson(message, Response.class);
-        
-        switch(res.getAction())
-        {
-            case "login":{
-                System.out.print(res.getLoginObject().getEmail());
-                //conn.prepareStatement("Insert into user Values('',)")
+        System.out.printf("Message received. Session id: %s Message: %s%n", session.getId(), message);
+        Response res = (Response) gson.fromJson(message, Response.class);
+
+        switch (res.getAction()) {
+        case "login": {
+            LoginObject loginObject = res.getLoginObject();
+            System.out.print(res.getLoginObject().getEmail());
+                try {
+                    PreparedStatement preparedStmt = conn.prepareStatement("Insert into user Values('','','','','','','');");
+                    preparedStmt.setString(2, loginObject.getEmail());
+                    preparedStmt.setString(3, loginObject.getEmail());
+                    preparedStmt.setString(4, loginObject.getEmail());
+                    preparedStmt.setString(5, loginObject.getEmail());
+                    preparedStmt.setString(6, loginObject.getPassword());
+                } catch (SQLException e) {
+                    
+                    e.printStackTrace();
+                }
             }
         }
     }

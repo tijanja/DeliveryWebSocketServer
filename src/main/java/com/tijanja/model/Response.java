@@ -1,4 +1,4 @@
-package com.tijanja.websocket.model;
+package com.tijanja.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
