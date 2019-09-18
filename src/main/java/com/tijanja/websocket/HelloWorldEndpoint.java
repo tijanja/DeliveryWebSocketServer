@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,12 +58,8 @@ public class HelloWorldEndpoint {
             LoginObject loginObject = res.getLoginObject();
             System.out.print(res.getLoginObject().getEmail());
                 try {
-                    PreparedStatement preparedStmt = conn.prepareStatement("Insert into user Values('','','','','','','');");
-                    preparedStmt.setString(2, loginObject.getEmail());
-                    preparedStmt.setString(3, loginObject.getEmail());
-                    preparedStmt.setString(4, loginObject.getEmail());
-                    preparedStmt.setString(5, loginObject.getEmail());
-                    preparedStmt.setString(6, loginObject.getPassword());
+                    Statement statement = conn.createStatement();
+                    statement.executeUpdate("Insert into user Values('',"+loginObject.getEmail()+",'tunji','akinde',"+loginObject.getEmail()+","+loginObject.getPassword()+",'');");
                 } catch (SQLException e) {
                     
                     e.printStackTrace();
