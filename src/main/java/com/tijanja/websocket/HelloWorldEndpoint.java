@@ -3,8 +3,14 @@
  */
 package com.tijanja.websocket;
 
+import javax.json.JsonObject;
 import javax.websocket.*;
 import javax.websocket.server.ServerEndpoint;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
 import java.io.IOException;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -15,12 +21,15 @@ import java.util.List;
 public class HelloWorldEndpoint {
 
     List<Session> clientSession;
+    Gson gson;
+    Connection conn;
 
     public HelloWorldEndpoint() {
         System.out.println("class loaded " + this.getClass());
         clientSession = new ArrayList<>();
-
-        Connection conn = ConfigDB.connectDB();
+        gson = new Gson();
+        conn = ConfigDB.connectDB();
+        
     }
 
     @OnOpen
@@ -37,11 +46,15 @@ public class HelloWorldEndpoint {
     @OnMessage
     public void onMessage(String message, Session session) {
         System.out.printf("Message received. Session id: %s Message: %s%n",session.getId(), message);
-        try 
+        JsonParser parser = new JsonParser();
+        com.google.gson.JsonObject jsonObj =(com.google.gson.JsonObject) parser.parse(message);
+        
+        switch(jsonObj.getAsJsonObject("action").toString())
         {
-            session.getBasicRemote().sendText(String.format("We received your message: %s%n "+session.getId()+" ", message));
-        } catch (IOException ex) {
-            ex.printStackTrace();
+            case "login":{
+                System.out.print(message);
+                //conn.prepareStatement("Insert into user Values('',)")
+            }
         }
     }
 
