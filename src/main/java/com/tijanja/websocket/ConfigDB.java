@@ -13,7 +13,7 @@ public class ConfigDB {
         try
         { 
                 Class.forName("com.mysql.cj.jdbc.Driver").newInstance();
-                con=DriverManager.getConnection("jdbc:mysql://206.189.115.158:3306/dinkkyDB","openfire","@K1nd3_*"); 
+                con=DriverManager.getConnection("jdbc:mysql://206.189.115.158:3306/dinkkyDB","tijanja","Project123"); 
         }
         catch(SQLException e)
         {
