@@ -15,7 +15,7 @@ plugins{
 }
 
 gretty {
-    httpPort = 8888
+    httpPort = 9090
     contextPath = '/'
     
 }

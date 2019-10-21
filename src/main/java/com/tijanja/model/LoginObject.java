@@ -13,6 +13,10 @@ public class LoginObject{
     @Expose
     String password;
 
+    @SerializedName("userType")
+    @Expose
+    String userType;
+
     public String getEmail()
     {
         return email;
@@ -21,6 +25,11 @@ public class LoginObject{
     public String getPassword()
     {
         return password;
+    }
+
+    public String getUserType()
+    {
+        return userType;
     }
 
 }

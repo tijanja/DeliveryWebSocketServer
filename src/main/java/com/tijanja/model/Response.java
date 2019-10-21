@@ -9,17 +9,8 @@ public class Response
     @Expose
     String action;
 
-    @SerializedName("data")
-    @Expose
-    LoginObject loginObject;
-
     public String getAction()
     {
         return action;
-    }
-
-    public LoginObject getLoginObject()
-    {
-        return loginObject;
     }
 }
